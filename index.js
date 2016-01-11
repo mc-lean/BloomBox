@@ -56,6 +56,8 @@ function DragAndDrop (container, boxData) {
 			// Update grid to keep everything in order
 			_coordinance[activeBox.id] = move;
 			_coordinance[_over.id] = pos;
+
+			_over = null;
 			
 		}
 
