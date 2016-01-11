@@ -1,0 +1,39 @@
+html, body {
+	background-color: lightgray;
+	padding: 0;
+	margin: 0;
+}
+
+#content-box {
+	background-color: white;
+	border-radius: 3px;
+	margin: 50px auto;
+	height: 400px;
+	width: 400px;
+}
+
+#content-box div {
+	transition-property: transform;
+	transition-duration: 0ms;
+	background-color: white;
+	display: inline-block;
+	position: absolute;
+	border-radius: 4px;
+	border: 1px solid;
+	cursor: pointer;
+	padding: 10px;
+	height: 4rem;
+	width: 4rem;
+}
+
+#content-box div h1 {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	text-align: center;
+	line-height: 4rem;
+	margin: 0;
+}
