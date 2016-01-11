@@ -39,20 +39,21 @@ function DragAndDrop (container, boxData) {
 
 		var pos = _coordinance[activeBox.id];
 
-		console.log( 'activeBox: '+ activeBox.id, pos );
 		
 
 		if(_over) {
 			// swap
 
 			_over.div.style.transitionDuration = "300ms";
+			_over.div.style.zIndex = "1";
 			var move = _coordinance[_over.id];
 
-			console.log( 'drop box: '+ _over.id, move );
 
+			// Swap boxes
 			activeBox.position(move.x, move.y);
 			_over.position(pos.x, pos.y);
 
+			// Update grid to keep everything in order
 			_coordinance[activeBox.id] = move;
 			_coordinance[_over.id] = pos;
 			
