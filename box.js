@@ -6,17 +6,18 @@
 
 function Box (boxId) {
 
-	var _box = document.createElement('div');
-	var _matrix3d = Matrix3d();
-	var _active = false;
-	var _currentX = 0;
-	var _currentY = 0;
+	var _box		= document.createElement('div');
+	var _matrix3d	= Matrix3d();
+	var _active		= false;
+	var _currentX	= 0;
+	var _currentY	= 0;
 
-
+	// Set content
 	_box.style.transitionTimingFunction = "cubic-bezier(0.25,0.1,0.25,1)";
 	_box.innerHTML = '<h1>' + (boxId + 1) + '</h1>';
 	_box.className = 'box';
 
+	// Add event listeners
 	_box.addEventListener('transitionend', reset, false);
 	_box.addEventListener('mousedown', dragStart, false);
 	_box.addEventListener('mouseup', drop, false);
@@ -71,7 +72,7 @@ function Box (boxId) {
 
 	function dragBox (e) {
 
-		
+
 		if (!e.which){ return; }
 
 
