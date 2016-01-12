@@ -11,7 +11,7 @@
 function Box (boxId) {
 
 	var _box		= document.createElement('div');
-	var _style 		= _box.style;
+	var _style      = _box.style;
 	var _matrix3d	= Matrix3d();
 	var _active		= false;
 	var _currentX	= 0;
