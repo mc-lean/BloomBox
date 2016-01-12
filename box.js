@@ -7,14 +7,16 @@
 function Box (boxId) {
 
 	var _box		= document.createElement('div');
+	var _style 		= _box.style;
 	var _matrix3d	= Matrix3d();
 	var _active		= false;
 	var _currentX	= 0;
 	var _currentY	= 0;
 
 	// Set content
-	_box.style.transitionTimingFunction = "cubic-bezier(0.25,0.1,0.25,1)";
+	_style.transitionTimingFunction = "cubic-bezier(0.25,0.1,0.25,1)";
 	_box.innerHTML = '<h1>' + (boxId + 1) + '</h1>';
+	_box.id = 'box-' + boxId;
 	_box.className = 'box';
 
 	// Add event listeners
@@ -38,7 +40,7 @@ function Box (boxId) {
 		_currentX = x;
 		_currentY = y;
 
-		_box.style.transform = _matrix3d.position(x,y);
+		_style.transform = _matrix3d.position(x,y);
 
 	}
 
@@ -51,22 +53,21 @@ function Box (boxId) {
 
 	function reset () {
 		
-		_box.style.transitionDuration = "0ms";
-		_box.style.zIndex = "0";
+		_style.transitionDuration = "0ms";
+		_style.zIndex = "0";
 
 	}
 
 	function dragStart (e) {
 
-		_box.style.transform = _matrix3d.skew(1.5,1.5);
-		_box.style.pointerEvents = "auto";
-		_box.style.opacity = "0.6";
-		_box.style.zIndex = "1";
+		_style.transform = _matrix3d.skew(1.5,1.5);
+		_style.pointerEvents = "auto";
+		_style.opacity = "0.6";
+		_style.zIndex = "1";
 		
 		_active = true;
 
 		_box.addEventListener('mousemove', dragBox, false);
-
 
 	}
 
@@ -86,14 +87,20 @@ function Box (boxId) {
 
 	function drop (e) {
 
-		_box.style.transform = _matrix3d.skew(1,1);
-		_box.style.opacity = "1";
+		_style.transform = _matrix3d.skew(1,1);
+		_style.opacity = "1";
 
 	}
 
 	function inactive () {
 		
 		_active = false;
+
+	}
+
+	function transition () {
+		
+		_style.transitionDuration = "300ms";
 
 	}
 
@@ -106,6 +113,7 @@ function Box (boxId) {
 
 
 	return {
+		setTransitionDuration: transition,
 		position: position,
 		inactive: inactive,
 		moved: isActive,

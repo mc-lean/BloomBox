@@ -13,99 +13,101 @@ data =[
 
 function DragAndDrop (container, boxData) {
 	
-	var _content = document.getElementById(container);
-	var _width = _content.offsetWidth;
-	var _coordinance = [];
-	var _over = null;
-	var _boxes = [];
-	var _x = 0;
-	var _y = 0;
+	var _content		= document.getElementById(container);
+	var _width			= _content.offsetWidth;
+	var _coordinance	= [];
+	var _boxes			= [];
+	var _x				= 0;
+	var _y				= 0;
 
-	// Array of boxes
+	// Make array of boxes from data
 	_boxes = boxData.map(makeBox);
 
 	// handle swapping of tiles
-	_content.addEventListener('mouseup', function(e) {
+	_content.addEventListener('mouseup', swap, false);
 
 
-		var activeBox = _boxes.find(function (box) {
+	function swap (e) {
 
-			return box.moved();
+		var activeBox	= _boxes.find(findActiveBox);
+
+		if(!activeBox) { return; }
 		
-		});
+		var to_			= _coordinance[activeBox.id];  //Coordinance of moved box
+		var dropBox		= findDrop(e);
 
 
-		activeBox.div.style.transitionDuration = "300ms";
+		activeBox.setTransitionDuration();
 
-		var pos = _coordinance[activeBox.id];
 
-		
-
-		if(_over) {
+		if(dropBox) {
 			// swap
 
-			_over.div.style.transitionDuration = "300ms";
-			_over.div.style.zIndex = "1";
-			var move = _coordinance[_over.id];
+			dropBox.div.style.zIndex = "1";
+			dropBox.setTransitionDuration();
+
+			// Get coordinance of drop box
+			var from_ = _coordinance[dropBox.id];
 
 
 			// Swap boxes
-			activeBox.position(move.x, move.y);
-			_over.position(pos.x, pos.y);
+			activeBox.position(from_.x, from_.y);
+			dropBox.position(to_.x, to_.y);
+
 
 			// Update grid to keep everything in order
-			_coordinance[activeBox.id] = move;
-			_coordinance[_over.id] = pos;
-
-			_over = null;
+			_coordinance[activeBox.id] = from_;
+			_coordinance[dropBox.id] = to_;
 			
 		}
 
 		else {
 			// send moved box back
-			activeBox.position(pos.x, pos.y);
+			activeBox.position(to_.x, to_.y);
 			
 		}
 
 		activeBox.inactive();
 
+	}
 
-	}, false);
+	// Return box that is being moved
+	function findActiveBox (box) {
 
+		return box.moved()
 
-	_content.addEventListener('mousemove', function (e) {
-		
-		if (!e.which) { return; }
-		
+	}
 
-		var elements = document.elementsFromPoint(e.pageX, e.pageY);
+	// If: mouse up occurred over a box return the box
+	// Else: return false
+	function findDrop (event) {
+
+		// Look for Drop elements
+		var elements = document.elementsFromPoint(event.pageX, event.pageY);
 		var element	= elements[1];
 
 
-		if (element.className === 'box' && _over !== element) {
+		if (element.className === 'box') {
 
-			_over = _boxes.find(function (box) {
-
-				return element.innerHTML === box.div.innerHTML;
+			return _boxes.find(function (box) {
+				
+				return element.id === box.div.id
 			
 			});
 
-
 		} 
 
-		else if (element.className !== 'box') {
+		else {
 
-			_over = null;
+			return false;
 
 		}
 
-		
-	},false);
-
+	}
 
 	function makeBox(box, i) {
 
-		var b = Box(box.id);
+		var newBox = Box(box.id);
 
 		_x += 100;
 
@@ -118,13 +120,13 @@ function DragAndDrop (container, boxData) {
 
 		_coordinance.push({ x: _x, y: _y });
 
-		b.position(_x, _y);
+		newBox.position(_x, _y);
 
-		_content.appendChild(b.div);
+		_content.appendChild(newBox.div);
 
 
 
-		return b;
+		return newBox;
 
 	}
 
