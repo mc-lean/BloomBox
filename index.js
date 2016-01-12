@@ -42,7 +42,8 @@ function DragAndDrop (container, boxData) {
 
 		if(!activeBox) { return; }
 
-		var to_			= _coordinance[activeBox.id];  //Coordinance of moved box
+		//Coordinance of moved box
+		var to_			= _coordinance[activeBox.id];  
 		var dropBox		= findDrop(e);
 
 
