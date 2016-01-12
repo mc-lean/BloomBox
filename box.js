@@ -1,4 +1,12 @@
+/*
+==============================================================    
 
+	Box
+	- Object to manage movement and events pertaining to 
+	each drag and drop box
+
+============================================================== 
+*/
 
 function Box (boxId) {
 
@@ -18,16 +26,17 @@ function Box (boxId) {
 	// Add event listeners
 	_box.addEventListener('transitionend', reset, false);
 	_box.addEventListener('mousedown', dragStart, false);
+	_box.addEventListener('mouseout', leave, false);
 	_box.addEventListener('mouseup', drop, false);
-	_box.addEventListener('mouseout', function (e) {
+
+
+	function leave (e) {
 		
 		if(!e.which) { return; }
-
-		console.log( 'reset!!!' );
-
+		
 		drop();
-	
-	});
+
+	}
 
 
 	function position (x, y) {
@@ -58,10 +67,9 @@ function Box (boxId) {
 	function dragStart (e) {
 
 		_box.addEventListener('mousemove', dragBox, false);
-		
+
 		_style.transform = _matrix3d.skew(1.5,1.5);
 		_style.transitionDuration = "0ms";
-		_style.pointerEvents = "auto";
 		_style.opacity = "0.6";
 		_style.zIndex = "1";
 		
@@ -85,7 +93,10 @@ function Box (boxId) {
 
 	function drop (e) {
 
+		// remove mouse move listener on this box
 		_box.removeEventListener('mousemove', dragBox, false);
+
+		// set style back to normal
 		_style.transform = _matrix3d.skew(1,1);
 		_style.opacity = "1";
 
@@ -97,9 +108,9 @@ function Box (boxId) {
 
 	}
 
-	function transition () {
+	function transition (duration) {
 
-		_style.transitionDuration = "300ms";
+		_style.transitionDuration = duration + "ms";
 
 	}
 

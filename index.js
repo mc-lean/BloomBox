@@ -10,6 +10,15 @@ data =[
 	{ id: 8 }
 ];
 
+/*
+==============================================================    
+
+	Drag And Drop
+	- Object / Controller to create boxes, handle box swapping 
+	and maintain coordinance of the boxes
+
+============================================================== 
+*/
 
 function DragAndDrop (container, boxData) {
 	
@@ -32,19 +41,19 @@ function DragAndDrop (container, boxData) {
 		var activeBox	= _boxes.find(findActiveBox);
 
 		if(!activeBox) { return; }
-		
+
 		var to_			= _coordinance[activeBox.id];  //Coordinance of moved box
 		var dropBox		= findDrop(e);
 
 
-		activeBox.setTransitionDuration();
+		activeBox.setTransitionDuration(300);
 
 
 		if(dropBox) {
-			// swap
+			// swap boxes
 
+			dropBox.setTransitionDuration(300);
 			dropBox.div.style.zIndex = "1";
-			dropBox.setTransitionDuration();
 
 			// Get coordinance of drop box
 			var from_ = _coordinance[dropBox.id];
@@ -62,7 +71,7 @@ function DragAndDrop (container, boxData) {
 		}
 
 		else {
-			// send moved box back
+			// send moved box back to original position 
 			activeBox.position(to_.x, to_.y);
 			
 		}
