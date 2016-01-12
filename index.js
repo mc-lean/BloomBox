@@ -84,7 +84,7 @@ function DragAndDrop (container, boxData) {
 	// Return box that is being moved
 	function findActiveBox (box) {
 
-		return box.moved()
+		return box.moved();
 
 	}
 
@@ -101,7 +101,7 @@ function DragAndDrop (container, boxData) {
 
 			return _boxes.find(function (box) {
 				
-				return element.id === box.div.id
+				return element.id === box.div.id;
 			
 			});
 
