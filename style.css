@@ -1,4 +1,9 @@
-html, body {
+
+body {
+    background-image: url(https://fdn.bloomthat.com/logos/2014/11/bloomthat-circle.png);
+	background-position: center 15px;
+	background-repeat: no-repeat;
+	background-size: 6.5rem;
 	background-color: #E4E2E2;
 	font-family: sans-serif;
 	padding: 0;
