@@ -72,6 +72,7 @@ function DragAndDrop (container, boxData) {
 
 	}, false);
 
+
 	_content.addEventListener('mousemove', function (e) {
 		
 		if (!e.which) { return; }
