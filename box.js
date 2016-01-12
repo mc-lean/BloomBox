@@ -8,7 +8,7 @@
 ============================================================== 
 */
 
-function Box (boxId) {
+var Box = (function (boxId) {
 
 	var _box		= document.createElement('div');
 	var _style      = _box.style;
@@ -131,4 +131,4 @@ function Box (boxId) {
 		id: boxId
 	};
 
-}
+});

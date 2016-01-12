@@ -7,7 +7,7 @@
 ============================================================== 
 */
 
-function Matrix3d () {
+var Matrix3d =(function () {
 	
 	var m = [
 		[1,0,0,0],
@@ -44,4 +44,4 @@ function Matrix3d () {
 		skew: skew,
 	};
 
-}
+});

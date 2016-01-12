@@ -20,7 +20,7 @@ data =[
 ============================================================== 
 */
 
-function DragAndDrop (container, boxData) {
+var DragAndDrop = (function (container, boxData) {
 	
 	var _content		= document.getElementById(container);
 	var _width			= _content.offsetWidth;
@@ -141,7 +141,7 @@ function DragAndDrop (container, boxData) {
 	}
 
 
-}
+});
 
 
 
