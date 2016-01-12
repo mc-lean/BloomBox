@@ -1,8 +1,4 @@
 
-// NOTES
-
-// add move listener on mouse down to avoid mouse losing box
-
 
 function Box (boxId) {
 
@@ -28,6 +24,7 @@ function Box (boxId) {
 		if(!e.which) { return; }
 
 		console.log( 'reset!!!' );
+
 		drop();
 	
 	});
@@ -60,14 +57,16 @@ function Box (boxId) {
 
 	function dragStart (e) {
 
+		_box.addEventListener('mousemove', dragBox, false);
+		
 		_style.transform = _matrix3d.skew(1.5,1.5);
+		_style.transitionDuration = "0ms";
 		_style.pointerEvents = "auto";
 		_style.opacity = "0.6";
 		_style.zIndex = "1";
 		
 		_active = true;
 
-		_box.addEventListener('mousemove', dragBox, false);
 
 	}
 
@@ -75,8 +74,7 @@ function Box (boxId) {
 
 
 		if (!e.which){ return; }
-
-
+		
 		var moveX = Math.abs(e.movementX + _currentX),
 			moveY = Math.abs(e.movementY + _currentY);
 
@@ -87,6 +85,7 @@ function Box (boxId) {
 
 	function drop (e) {
 
+		_box.removeEventListener('mousemove', dragBox, false);
 		_style.transform = _matrix3d.skew(1,1);
 		_style.opacity = "1";
 
@@ -99,7 +98,7 @@ function Box (boxId) {
 	}
 
 	function transition () {
-		
+
 		_style.transitionDuration = "300ms";
 
 	}
