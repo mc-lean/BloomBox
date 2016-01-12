@@ -111,7 +111,7 @@ function DragAndDrop (container, boxData) {
 		if(i % 3 === 0){
 			
 			_y += 100;
-			_x = 50;
+			_x = 60;
 
 		}
 

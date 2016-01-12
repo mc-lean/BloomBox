@@ -1,5 +1,7 @@
 
+// NOTES
 
+// add move listener on mouse down to avoid mouse losing box
 
 
 function Box (boxId) {
@@ -15,15 +17,17 @@ function Box (boxId) {
 	_box.innerHTML = '<h1>' + (boxId + 1) + '</h1>';
 	_box.className = 'box';
 
+	_box.addEventListener('transitionend', reset, false);
 	_box.addEventListener('mousedown', dragStart, false);
-	_box.addEventListener('mousemove', dragBox, false);
 	_box.addEventListener('mouseup', drop, false);
-	_box.addEventListener('transitionend', function (response) {
+	_box.addEventListener('mouseout', function (e) {
 		
-		_box.style.transitionDuration = "0ms";
-		_box.style.zIndex = "0";
+		if(!e.which) { return; }
+
+		console.log( 'reset!!!' );
+		drop();
 	
-	}, false);
+	});
 
 
 	function position (x, y) {
@@ -38,16 +42,21 @@ function Box (boxId) {
 	}
 
 
-	function div (argument) {
+	function div () {
 
 		return _box;
 
 	}
 
+	function reset () {
+		
+		_box.style.transitionDuration = "0ms";
+		_box.style.zIndex = "0";
 
+	}
 
 	function dragStart (e) {
-		
+
 		_box.style.transform = _matrix3d.skew(1.5,1.5);
 		_box.style.pointerEvents = "auto";
 		_box.style.opacity = "0.6";
@@ -55,11 +64,14 @@ function Box (boxId) {
 		
 		_active = true;
 
+		_box.addEventListener('mousemove', dragBox, false);
+
+
 	}
 
 	function dragBox (e) {
 
-
+		
 		if (!e.which){ return; }
 
 
@@ -75,9 +87,6 @@ function Box (boxId) {
 
 		_box.style.transform = _matrix3d.skew(1,1);
 		_box.style.opacity = "1";
-		// _box.style.zIndex = "0";
-		
-		// _active = false;
 
 	}
 

@@ -26,9 +26,8 @@ html, body {
 	background-image: url(https://fdn.bloomthat.com/icons/2014/11/favicon.png);
 	background-position: center 40px;
 	background-repeat: no-repeat;
-	-webkit-background-size: 44%;
-	background-size: 44%;
 	background-color: white;
+	background-size: 44%;
 }
 
 #content-box div h1 {
