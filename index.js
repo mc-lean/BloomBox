@@ -42,7 +42,7 @@ var DragAndDrop = (function (container, boxData) {
 
 		if(!activeBox) { return; }
 
-		//Coordinance of moved box
+		// Coordinance of moved box
 		var to_			= _coordinance[activeBox.id];  
 		var dropBox		= findDrop(e);
 
@@ -51,7 +51,7 @@ var DragAndDrop = (function (container, boxData) {
 
 
 		if(dropBox) {
-			// swap boxes
+			// Swap boxes
 
 			dropBox.setTransitionDuration(300);
 			dropBox.div.style.zIndex = "1";
@@ -72,7 +72,7 @@ var DragAndDrop = (function (container, boxData) {
 		}
 
 		else {
-			// send moved box back to original position 
+			// Send moved box back to original position 
 			activeBox.position(to_.x, to_.y);
 			
 		}

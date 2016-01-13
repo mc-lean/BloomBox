@@ -34,7 +34,7 @@ var Box = (function (boxId) {
 	function leave (e) {
 		
 		if(!e.which) { return; }
-		
+
 		drop();
 
 	}
@@ -84,6 +84,8 @@ var Box = (function (boxId) {
 
 		if (!e.which){ return; }
 		
+		// Calculate box move distance by adding current 
+		// position to the movement amout of the mouse
 		var moveX = Math.abs(e.movementX + _currentX),
 			moveY = Math.abs(e.movementY + _currentY);
 
