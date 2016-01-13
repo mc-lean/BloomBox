@@ -122,14 +122,14 @@ var Box = (function (boxId) {
 
 	}
 
-
-	return {
+	// Freeze the object to maintain integrity 
+	return Object.freeze({
 		setTransitionDuration: transition,
 		position: position,
 		inactive: inactive,
 		moved: isActive,
 		div: _box,
 		id: boxId
-	};
+	});
 
 });
