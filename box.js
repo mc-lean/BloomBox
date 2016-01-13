@@ -23,6 +23,7 @@ var Box = (function (boxId) {
 	_box.id = 'box-' + boxId;
 	_box.className = 'box';
 
+
 	// Add event listeners
 	_box.addEventListener('transitionend', reset, false);
 	_box.addEventListener('mousedown', dragStart, false);
@@ -121,14 +122,14 @@ var Box = (function (boxId) {
 
 	}
 
-
-	return {
+	// Freeze the object to maintain its integrity 
+	return Object.freeze({
 		setTransitionDuration: transition,
 		position: position,
 		inactive: inactive,
 		moved: isActive,
 		div: _box,
 		id: boxId
-	};
+	});
 
 });
