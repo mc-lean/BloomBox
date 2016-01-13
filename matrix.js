@@ -39,9 +39,9 @@ var Matrix3d =(function () {
 	}
 
 
-	return Object.freeze({
+	return {
 		position: position,
 		skew: skew,
-	});
+	};
 
 });
