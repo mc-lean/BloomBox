@@ -43,7 +43,6 @@ var Box = (function (boxId) {
 
 	}
 
-
 	function _position () {
 		
 		// try requestAnimationFrame
@@ -53,11 +52,8 @@ var Box = (function (boxId) {
 
 		}
 
-		// Center box on the mouse
-		var x = (_pos.x - 32);
-		var y = (_pos.y - 32);
 
-		_style.transform = _matrix3d.position(x,y);
+		_style.transform = _matrix3d.position(_pos.x, _pos.y);
 
 	}
 

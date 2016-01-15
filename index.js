@@ -125,9 +125,11 @@ var DragAndDrop = (function (container, boxData) {
 		if(i % 3 === 0){
 			
 			_y += 100;
-			_x = 60;
+			_x = 70;
 
 		}
+
+		console.log( 'x', _x );
 
 		_coordinance.push({ x: _x, y: _y });
 
@@ -149,7 +151,7 @@ var DragAndDrop = (function (container, boxData) {
 		if(!_activeBox) { return; }
 		
 		// Move active box
-		_activeBox.to(e.layerX, e.layerY);
+		_activeBox.to(e.layerX - 32, e.layerY - 32);
 
 	}
 
