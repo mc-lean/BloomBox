@@ -44,6 +44,8 @@ var Box = (function (boxId) {
 		x = x || 0;
 		y = y || 0;
 
+		// try requestAnimationFrame
+
 		_currentX = x;
 		_currentY = y;
 
@@ -75,7 +77,6 @@ var Box = (function (boxId) {
 		_style.zIndex = "1";
 		
 		_active = true;
-
 
 	}
 
