@@ -10,6 +10,178 @@ data =[
 	{ id: 8 }
 ];
 
+
+/*
+==============================================================    
+
+	Matrix
+	- Object to manage transforms of 3d Matrix
+
+============================================================== 
+*/
+
+var Matrix3d =(function () {
+	
+	var m = [
+		[1,0,0,0],
+		[0,1,0,0],
+		[0,0,1,0],
+		[0,0,0,1]
+	];
+
+	function _value () {
+		
+		return "matrix3d("+ m.toString() +")";
+
+	}
+
+	function position (x, y) {
+
+		m[3][0] = x;
+		m[3][1] = y;
+		
+		return _value();
+	}
+
+	function skew (sX, sY) {
+		
+		m[0][0] = sX;
+		m[1][1] = sY;
+
+		return _value();
+	}
+
+
+	return Object.freeze({
+		position: position,
+		skew: skew,
+	});
+
+});
+
+/*
+==============================================================    
+
+	Box
+	- Object to manage movement and events pertaining to 
+	each drag and drop box
+
+============================================================== 
+*/
+
+var Box = (function (boxId) {
+
+	var _box		= document.createElement('div');
+	var _pos 		= { x: 0, y: 0 };
+	var _style      = _box.style;
+	var _matrix3d	= Matrix3d();
+	var _active		= false;
+	var _rAFIndex	= 0;
+
+	// Set content
+	_style.transitionTimingFunction = "cubic-bezier(0.25,0.1,0.25,1)";
+	_box.innerHTML = '<h1>' + (boxId + 1) + '</h1>';
+	_box.id = 'box-' + boxId;
+	_box.className = 'box';
+
+
+	// Add event listeners
+	_box.addEventListener('transitionend', reset, false);
+	_box.addEventListener('mousedown', dragStart, false);
+	_box.addEventListener('mouseup', drop, false);
+
+	function _sendTo (x, y) {
+		
+		to(x,y),
+		_position();
+
+	}
+
+	function to (x, y) {
+		
+		_pos.x = x;
+		_pos.y = y;
+
+	}
+
+	function _position () {
+		
+		if(_active) {
+
+			_rAFIndex = requestAnimationFrame(_position);
+
+		}
+
+
+		_style.transform = _matrix3d.position(_pos.x, _pos.y);
+
+	}
+
+
+	function div () {
+
+		return _box;
+
+	}
+
+	function reset () {
+		
+		_style.transitionDuration = "0ms";
+		_style.zIndex = "0";
+
+	}
+
+	function dragStart (e) {
+		
+		_style.transform = _matrix3d.skew(1.5,1.5);
+		_style.transitionDuration = "0ms";
+		_style.opacity = "0.6";
+		_style.zIndex = "1";
+
+		_active = true;
+
+	  	cancelAnimationFrame(_rAFIndex);
+
+		_rAFIndex = requestAnimationFrame(_position);
+
+	}
+
+
+	function drop (e) {
+		// set style back to normal
+		_style.transform = _matrix3d.skew(1,1);
+		_style.opacity = "1";
+
+		_active = false;
+
+	}
+
+
+	function transition (duration) {
+
+		_style.transitionDuration = duration + "ms";
+
+	}
+
+
+	function isActive () {
+
+		return _active;
+
+	}
+
+	// Freeze the object to maintain integrity 
+	return Object.freeze({
+		setTransitionDuration: transition,
+		sendTo: _sendTo,
+		moved: isActive,
+		div: _box,
+		id: boxId,
+		to: to
+	});
+
+});
+
 /*
 ==============================================================    
 
