@@ -23,31 +23,32 @@ data =[
 var DragAndDrop = (function (container, boxData) {
 	
 	var _content		= document.getElementById(container);
-	var _width			= _content.offsetWidth;
+	var _position		= { x:0, y:0 };
 	var _coordinance	= [];
 	var _boxes			= [];
 	var _x				= 0;
 	var _y				= 0;
+	var _activeBox;
 
 	// Make array of boxes from data
 	_boxes = boxData.map(makeBox);
 
 	// handle swapping of tiles
+	_content.addEventListener('mousemove', move, false);
 	_content.addEventListener('mouseup', swap, false);
 
 
 	function swap (e) {
-
-		var activeBox	= _boxes.find(findActiveBox);
-
-		if(!activeBox) { return; }
+		
+		console.log( _activeBox );
+		if(!_activeBox) { return; }
 
 		// Coordinance of moved box
-		var to_			= _coordinance[activeBox.id];  
+		var to_			= _coordinance[_activeBox.id];  
 		var dropBox		= findDrop(e);
 
 
-		activeBox.setTransitionDuration(300);
+		_activeBox.setTransitionDuration(300);
 
 
 		if(dropBox) {
@@ -61,23 +62,24 @@ var DragAndDrop = (function (container, boxData) {
 
 
 			// Swap boxes
-			activeBox.position(from_.x, from_.y);
+			_activeBox.position(from_.x, from_.y);
 			dropBox.position(to_.x, to_.y);
 
 
 			// Update grid to keep everything in order
-			_coordinance[activeBox.id] = from_;
+			_coordinance[_activeBox.id] = from_;
 			_coordinance[dropBox.id] = to_;
 			
 		}
 
 		else {
 			// Send moved box back to original position 
-			activeBox.position(to_.x, to_.y);
+			_activeBox.position(to_.x, to_.y);
 			
 		}
 
-		activeBox.inactive();
+
+		_activeBox = null;
 
 	}
 
@@ -137,6 +139,17 @@ var DragAndDrop = (function (container, boxData) {
 
 
 		return newBox;
+
+	}
+
+	function move (e) {
+	
+		_activeBox = _boxes.find(findActiveBox);
+
+		if(!_activeBox) { return; }
+		
+		
+		_activeBox.position(e.layerX, e.layerY);
 
 	}
 

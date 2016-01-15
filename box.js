@@ -27,7 +27,7 @@ var Box = (function (boxId) {
 	// Add event listeners
 	_box.addEventListener('transitionend', reset, false);
 	_box.addEventListener('mousedown', dragStart, false);
-	_box.addEventListener('mouseout', leave, false);
+	// _box.addEventListener('mouseout', leave, false);
 	_box.addEventListener('mouseup', drop, false);
 
 
@@ -46,8 +46,8 @@ var Box = (function (boxId) {
 
 		// try requestAnimationFrame
 
-		_currentX = x;
-		_currentY = y;
+		x -= 30;
+		y -= 30;
 
 		_style.transform = _matrix3d.position(x,y);
 
@@ -69,7 +69,7 @@ var Box = (function (boxId) {
 
 	function dragStart (e) {
 
-		_box.addEventListener('mousemove', dragBox, false);
+		// _box.addEventListener('mousemove', dragBox, false);
 
 		_style.transform = _matrix3d.skew(1.5,1.5);
 		_style.transitionDuration = "0ms";
@@ -98,19 +98,16 @@ var Box = (function (boxId) {
 	function drop (e) {
 
 		// remove mouse move listener on this box
-		_box.removeEventListener('mousemove', dragBox, false);
+		// _box.removeEventListener('mousemove', dragBox, false);
 
 		// set style back to normal
 		_style.transform = _matrix3d.skew(1,1);
 		_style.opacity = "1";
 
-	}
-
-	function inactive () {
-		
 		_active = false;
 
 	}
+
 
 	function transition (duration) {
 
@@ -129,7 +126,6 @@ var Box = (function (boxId) {
 	return Object.freeze({
 		setTransitionDuration: transition,
 		position: position,
-		inactive: inactive,
 		moved: isActive,
 		div: _box,
 		id: boxId
