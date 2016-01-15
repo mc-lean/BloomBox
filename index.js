@@ -23,7 +23,7 @@ data =[
 var DragAndDrop = (function (container, boxData) {
 	
 	var _content		= document.getElementById(container);
-	var _position		= { x:0, y:0 };
+	var _position		= { x: 0, y: 0 };
 	var _coordinance	= [];
 	var _boxes			= [];
 	var _x				= 0;
@@ -40,7 +40,6 @@ var DragAndDrop = (function (container, boxData) {
 
 	function swap (e) {
 		
-		console.log( _activeBox );
 		if(!_activeBox) { return; }
 
 		// Coordinance of moved box
@@ -62,8 +61,8 @@ var DragAndDrop = (function (container, boxData) {
 
 
 			// Swap boxes
-			_activeBox.position(from_.x, from_.y);
-			dropBox.position(to_.x, to_.y);
+			_activeBox.to(from_.x, from_.y);
+			dropBox.sendTo(to_.x, to_.y);
 
 
 			// Update grid to keep everything in order
@@ -73,8 +72,8 @@ var DragAndDrop = (function (container, boxData) {
 		}
 
 		else {
-			// Send moved box back to original position 
-			_activeBox.position(to_.x, to_.y);
+			// Send moved box back to original position
+			_activeBox.to(to_.x, to_.y);
 			
 		}
 
@@ -94,7 +93,7 @@ var DragAndDrop = (function (container, boxData) {
 	// Else: return false
 	function findDrop (event) {
 
-		// Look for Drop elements
+		// Look for Drop elements beneath the mouse down event
 		var elements = document.elementsFromPoint(event.pageX, event.pageY);
 		var element	= elements[1];
 
@@ -132,7 +131,7 @@ var DragAndDrop = (function (container, boxData) {
 
 		_coordinance.push({ x: _x, y: _y });
 
-		newBox.position(_x, _y);
+		newBox.sendTo(_x, _y);
 
 		_content.appendChild(newBox.div);
 
@@ -143,13 +142,14 @@ var DragAndDrop = (function (container, boxData) {
 	}
 
 	function move (e) {
-	
+		
+		// Set active box
 		_activeBox = _boxes.find(findActiveBox);
 
 		if(!_activeBox) { return; }
 		
-		
-		_activeBox.position(e.layerX, e.layerY);
+		// Move active box
+		_activeBox.to(e.layerX, e.layerY);
 
 	}
 

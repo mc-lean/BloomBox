@@ -11,11 +11,11 @@
 var Box = (function (boxId) {
 
 	var _box		= document.createElement('div');
+	var _pos 		= { x: 0, y: 0 };
 	var _style      = _box.style;
 	var _matrix3d	= Matrix3d();
 	var _active		= false;
-	var _currentX	= 0;
-	var _currentY	= 0;
+	var _rAFIndex	= 0;
 
 	// Set content
 	_style.transitionTimingFunction = "cubic-bezier(0.25,0.1,0.25,1)";
@@ -27,27 +27,35 @@ var Box = (function (boxId) {
 	// Add event listeners
 	_box.addEventListener('transitionend', reset, false);
 	_box.addEventListener('mousedown', dragStart, false);
-	// _box.addEventListener('mouseout', leave, false);
 	_box.addEventListener('mouseup', drop, false);
 
-
-	function leave (e) {
+	function _sendTo (x, y) {
 		
-		if(!e.which) { return; }
+		to(x,y),
+		_position();
 
-		drop();
+	}
+
+	function to (x, y) {
+		
+		_pos.x = x;
+		_pos.y = y;
 
 	}
 
 
-	function position (x, y) {
-		x = x || 0;
-		y = y || 0;
-
+	function _position () {
+		
 		// try requestAnimationFrame
+		if(_active) {
 
-		x -= 30;
-		y -= 30;
+			_rAFIndex = requestAnimationFrame(_position);
+
+		}
+
+		// Center box on the mouse
+		var x = (_pos.x - 32);
+		var y = (_pos.y - 32);
 
 		_style.transform = _matrix3d.position(x,y);
 
@@ -68,38 +76,22 @@ var Box = (function (boxId) {
 	}
 
 	function dragStart (e) {
-
-		// _box.addEventListener('mousemove', dragBox, false);
-
+		
 		_style.transform = _matrix3d.skew(1.5,1.5);
 		_style.transitionDuration = "0ms";
 		_style.opacity = "0.6";
 		_style.zIndex = "1";
-		
+
 		_active = true;
 
-	}
+	  	cancelAnimationFrame(_rAFIndex);
 
-	function dragBox (e) {
-
-
-		if (!e.which){ return; }
-		
-		// Calculate box move distance by adding current 
-		// position to the movement amout of the mouse
-		var moveX = Math.abs(e.movementX + _currentX),
-			moveY = Math.abs(e.movementY + _currentY);
-
-		
-		position(moveX, moveY);
+		_rAFIndex = requestAnimationFrame(_position);
 
 	}
+
 
 	function drop (e) {
-
-		// remove mouse move listener on this box
-		// _box.removeEventListener('mousemove', dragBox, false);
-
 		// set style back to normal
 		_style.transform = _matrix3d.skew(1,1);
 		_style.opacity = "1";
@@ -125,10 +117,11 @@ var Box = (function (boxId) {
 	// Freeze the object to maintain integrity 
 	return Object.freeze({
 		setTransitionDuration: transition,
-		position: position,
+		sendTo: _sendTo,
 		moved: isActive,
 		div: _box,
-		id: boxId
+		id: boxId,
+		to: to
 	});
 
 });
