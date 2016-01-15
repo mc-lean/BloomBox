@@ -24,6 +24,8 @@ var DragAndDrop = (function (container, boxData) {
 	
 	var _content		= document.getElementById(container);
 	var _position		= { x: 0, y: 0 };
+	var _boxMargin		= 15;
+	var _boxWidth		= 85;
 	var _coordinance	= [];
 	var _boxes			= [];
 	var _x				= 0;
@@ -120,23 +122,24 @@ var DragAndDrop = (function (container, boxData) {
 
 		var newBox = Box(box.id);
 
-		_x += 100;
+		_x += _boxWidth + _boxMargin;
 
+		// Set Initial X and Y position
 		if(i % 3 === 0){
 			
 			_y += 100;
-			_x = 70;
+			// Center Boxes horizontally in 'content-box' div and screen
+			_x = Math.floor((400 - (_boxWidth * 3 + _boxMargin * 2)) / 2);
 
 		}
 
-		console.log( 'x', _x );
+
 
 		_coordinance.push({ x: _x, y: _y });
 
 		newBox.sendTo(_x, _y);
 
 		_content.appendChild(newBox.div);
-
 
 
 		return newBox;
@@ -149,7 +152,7 @@ var DragAndDrop = (function (container, boxData) {
 		_activeBox = _boxes.find(findActiveBox);
 
 		if(!_activeBox) { return; }
-		
+
 		// Move active box
 		_activeBox.to(e.layerX - 32, e.layerY - 32);
 

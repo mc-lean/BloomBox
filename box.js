@@ -45,7 +45,6 @@ var Box = (function (boxId) {
 
 	function _position () {
 		
-		// try requestAnimationFrame
 		if(_active) {
 
 			_rAFIndex = requestAnimationFrame(_position);
