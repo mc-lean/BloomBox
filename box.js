@@ -13,8 +13,9 @@ var Box = (function (boxId) {
 	var _box		= document.createElement('div');
 	var _pos 		= { x: 0, y: 0 };
 	var _style      = _box.style;
-	var _matrix3d	= Matrix3d();
+	var _matrix3d	= Matrix3d;
 	var _active		= false;
+	var _moved		= false;
 	var _rAFIndex	= 0;
 
 	// Set content
@@ -27,16 +28,16 @@ var Box = (function (boxId) {
 	// Add event listeners
 	_box.addEventListener('transitionend', reset, false);
 	_box.addEventListener('mousedown', dragStart, false);
-	_box.addEventListener('mouseup', drop, false);
+	_box.addEventListener('mouseup', _drop, false);
 
 	function _sendTo (x, y) {
-		
-		to(x,y),
+
+		_to(x,y),
 		_position();
 
 	}
 
-	function to (x, y) {
+	function _to (x, y) {
 		
 		_pos.x = x;
 		_pos.y = y;
@@ -53,13 +54,6 @@ var Box = (function (boxId) {
 
 
 		_style.transform = _matrix3d.position(_pos.x, _pos.y);
-
-	}
-
-
-	function div () {
-
-		return _box;
 
 	}
 
@@ -86,7 +80,10 @@ var Box = (function (boxId) {
 	}
 
 
-	function drop (e) {
+	function _drop (e) {
+
+		if(!_active) { return; }
+		
 		// set style back to normal
 		_style.transform = _matrix3d.skew(1,1);
 		_style.opacity = "1";
@@ -114,9 +111,10 @@ var Box = (function (boxId) {
 		setTransitionDuration: transition,
 		sendTo: _sendTo,
 		moved: isActive,
+		pos: _pos,
 		div: _box,
 		id: boxId,
-		to: to
+		to: _to
 	});
 
 });

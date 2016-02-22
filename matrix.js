@@ -44,4 +44,4 @@ var Matrix3d =(function () {
 		skew: skew,
 	});
 
-});
+}());

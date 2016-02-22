@@ -23,14 +23,16 @@ data =[
 var DragAndDrop = (function (container, boxData) {
 	
 	var _content		= document.getElementById(container);
+	var _windowWidth	= window.innerWidth;
 	var _position		= { x: 0, y: 0 };
 	var _boxMargin		= 15;
 	var _boxWidth		= 85;
 	var _coordinance	= [];
 	var _boxes			= [];
+	var _y				= 60;
 	var _x				= 0;
-	var _y				= 0;
 	var _activeBox;
+
 
 	// Make array of boxes from data
 	_boxes = boxData.map(makeBox);
@@ -40,14 +42,13 @@ var DragAndDrop = (function (container, boxData) {
 	_content.addEventListener('mouseup', swap, false);
 
 
-	function swap (e) {
-		
+	function swap(e) {
+
 		if(!_activeBox) { return; }
-
+		console.log( 'swap' );
 		// Coordinance of moved box
+		var dropBox 	= _boxes.find(_drop, e) || false;
 		var to_			= _coordinance[_activeBox.id];  
-		var dropBox		= findDrop(e);
-
 
 		_activeBox.setTransitionDuration(300);
 
@@ -85,36 +86,21 @@ var DragAndDrop = (function (container, boxData) {
 	}
 
 	// Return box that is being moved
-	function findActiveBox (box) {
+	function findActiveBox(box) {
 
 		return box.moved();
 
 	}
 
 	// If: mouse up occurred over a box return the box
-	// Else: return false
-	function findDrop (event) {
+	function _drop(box) {
 
-		// Look for Drop elements beneath the mouse down event
-		var elements = document.elementsFromPoint(event.pageX, event.pageY);
-		var element	= elements[1];
+		var e = this;
 
+		var measureY = e.pageY >= box.pos.y && e.pageY <= box.pos.y + 85;
+		var measureX = e.pageX >= box.pos.x && e.pageX <= box.pos.x + 85;
 
-		if (element.className === 'box') {
-
-			return _boxes.find(function (box) {
-				
-				return element.id === box.div.id;
-			
-			});
-
-		} 
-
-		else {
-
-			return false;
-
-		}
+		return measureY && measureX && _activeBox.id !== box.id
 
 	}
 
@@ -129,10 +115,9 @@ var DragAndDrop = (function (container, boxData) {
 			
 			_y += 100;
 			// Center Boxes horizontally in 'content-box' div and screen
-			_x = Math.floor((400 - (_boxWidth * 3 + _boxMargin * 2)) / 2);
+			_x = Math.floor((_windowWidth - (_boxWidth * 3 + _boxMargin * 2)) / 2);
 
 		}
-
 
 
 		_coordinance.push({ x: _x, y: _y });
@@ -146,15 +131,16 @@ var DragAndDrop = (function (container, boxData) {
 
 	}
 
-	function move (e) {
-		
+	function move(e) {
+
 		// Set active box
 		_activeBox = _boxes.find(findActiveBox);
 
 		if(!_activeBox) { return; }
 
+
 		// Move active box
-		_activeBox.to(e.layerX - 32, e.layerY - 32);
+		_activeBox.to(e.pageX - 32, e.pageY - 32);
 
 	}
 

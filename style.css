@@ -1,4 +1,4 @@
-
+html, body { height: 100% }
 body {
     background-image: url(https://fdn.bloomthat.com/logos/2014/11/bloomthat-circle.png);
 	background-position: center 15px;
@@ -12,9 +12,8 @@ body {
 
 #content-box {
 	border-radius: 3px;
-	margin: 50px auto;
-	height: 400px;
-	width: 400px;
+	height: 100%;
+	width: 100%;
 }
 
 #content-box div {
